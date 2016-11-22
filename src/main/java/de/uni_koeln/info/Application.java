@@ -2,7 +2,6 @@ package de.uni_koeln.info;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.apache.tika.exception.TikaException;
 import org.apache.xmlbeans.XmlException;
@@ -25,7 +24,10 @@ public class Application extends SpringBootServletInitializer {
 	public static void main(String[] args) throws IOException, SAXException, TikaException, XmlException {
 		
 		// Delete index on start up...
-		Arrays.asList(new File("index").listFiles()).forEach(f -> f.delete());
+		File[] listFiles = new File("index").listFiles();
+		for (File file : listFiles) {
+			file.delete();
+		}
 		// ...and reindex data
 		Indexer indexer = new Indexer();
 		indexer.index(new File("lucene/lia_rg_sents.txt"));
