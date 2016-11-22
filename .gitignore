@@ -1,1 +1,8 @@
 target/**
+/ALLEGRA_corpus/
+/hunspell-rg/
+/input/
+/lucene/
+/output/
+/TiGer_corpus/
+/training-data/
