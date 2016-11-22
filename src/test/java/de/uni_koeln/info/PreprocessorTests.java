@@ -17,7 +17,7 @@ import de.uni_koeln.info.extraction.Writer;
 
 public class PreprocessorTests {
 	
-	@Test
+	//@Test
 	public void brekIterator() throws IOException, TikaException, SAXException {
 		List<String> rawTexts = Reader.read(new File("input"));
 		long time = System.currentTimeMillis();
@@ -37,7 +37,7 @@ public class PreprocessorTests {
 		Writer.writeSentenceFile(new File("junit_tests_break_iterator.txt"), sentences);
 	}
 	
-	@Test
+	//@Test
 	public void sentenceDetector() throws IOException, TikaException, SAXException {
 		List<String> rawTexts = Reader.read(new File("input"));
 		long time = System.currentTimeMillis();

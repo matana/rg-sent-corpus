@@ -54,7 +54,8 @@ public class SentenceDetectionTests {
 		System.out.println("Sentence Detection with openNLP (Trained on tiger data.)");
 		System.out.println("########################################################");
 		// http://opennlp.sourceforge.net/models-1.5/
-		InputStream modelIn = new FileInputStream("training-data/model/de-sent.bin");
+		String binFile = getClass().getClassLoader().getResource("de-sent.bin").getFile();
+		InputStream modelIn = new FileInputStream(binFile);
 		try {
 			SentenceModel model = new SentenceModel(modelIn);
 			opennlp.tools.sentdetect.SentenceDetector sentenceDetector = new SentenceDetectorME(model);

@@ -32,9 +32,12 @@ public class NBTokenTests {
 	@Test
 	public void classify() throws IOException {
 
+		String rgFile = getClass().getClassLoader().getResource("rg-sent_4500.txt").getFile();
+		String deFile = getClass().getClassLoader().getResource("de-sent_4500.txt").getFile();
+		
 		// GOLDSTANDARD
-		List<String> rg_Sentences = Reader.getLines(new File("training-data/rg-sent_4500.txt"));
-		List<String> de_Sentences = Reader.getLines(new File("training-data/de-sent_4500.txt"));
+		List<String> rg_Sentences = Reader.getLines(new File(rgFile));
+		List<String> de_Sentences = Reader.getLines(new File(deFile));
 		
 
 		// List<List<String>> partition = Lists.partition(rgSentences, 100);
