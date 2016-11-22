@@ -2,7 +2,6 @@ package de.uni_koeln.info.extraction;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.tika.exception.TikaException;
@@ -17,7 +16,7 @@ import org.xml.sax.SAXException;
  */
 public class Preprocessor {
 
-	public static void main(String[] args) throws IOException, TikaException, SAXException {
+	public static void extract() throws IOException, TikaException, SAXException {
 		
 		// Each String elements contains the textual content of a MS Word document
 		List<String> rawTexts = Reader.read(new File("input"));

@@ -19,10 +19,11 @@ import opennlp.tools.util.ObjectStream;
 import opennlp.tools.util.PlainTextByLineStream;
 import opennlp.tools.util.TrainingParameters;
 
+
 public class SentDetectTrainer {
 	
 	
-	public static void main(String[] args) throws IOException {
+	public static void train() throws IOException {
 		
 		//String input = "training-data/sent/rg-sent.train";
 		//String output = "training-data/model/rg-sent.bin";

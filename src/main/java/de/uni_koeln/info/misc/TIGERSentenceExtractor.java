@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
 public class TIGERSentenceExtractor {
 	
 	
-	public static void main(String[] args) throws SAXException, IOException, ParserConfigurationException {
+	public static void extract() throws SAXException, IOException, ParserConfigurationException {
 		
 		// Structure: http://www.ims.uni-stuttgart.de/forschung/ressourcen/werkzeuge/TIGERSearch/doc/html/TigerXML.html
 		File corpus = new File("TiGer_corpus/tiger_release_aug07.corrected.16012013.xml");

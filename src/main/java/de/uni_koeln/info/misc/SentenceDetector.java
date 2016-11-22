@@ -25,15 +25,15 @@ import opennlp.tools.sentdetect.SentenceModel;
 @Deprecated
 public class SentenceDetector {
 
-	public static void main(String[] args) {
-		try {
-			tokenClassification();
-			trigramClassification();
-			System.out.println("DONE!");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) {
+//		try {
+//			tokenClassification();
+//			trigramClassification();
+//			System.out.println("DONE!");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	private static void tokenClassification() throws IOException {
 		// Get trinaing data and inititialize classifier
