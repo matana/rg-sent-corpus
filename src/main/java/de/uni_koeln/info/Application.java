@@ -19,13 +19,30 @@ public class Application extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		try {
+			initIndex();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return application.sources(Application.class);
 	}
 
-	public static void main(String[] args) throws IOException, SAXException, TikaException, XmlException {
+	public static void main(String[] args) {
 		
+		try {
+			initIndex();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		SpringApplication.run(Application.class, args);
+	}
+
+	private static void initIndex() throws IOException {
 		// Delete index on start up...
-		File[] listFiles = new File("index").listFiles();
+		File index = new File("index");
+		index.mkdirs();
+		File[] listFiles = index.listFiles();
 		for (File file : listFiles) {
 			file.delete();
 		}
@@ -35,8 +52,6 @@ public class Application extends SpringBootServletInitializer {
 		File allegraCorpus = new ClassPathResource("ALLEGRA_corpus_rg_sents.txt").getFile();
 		indexer.index(liaCorpus);
 		indexer.index(allegraCorpus);
-		
-		SpringApplication.run(Application.class, args);
 	}
 
 }
