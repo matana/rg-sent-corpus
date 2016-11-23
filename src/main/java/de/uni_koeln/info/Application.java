@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.core.io.ClassPathResource;
 import org.xml.sax.SAXException;
 
 import de.uni_koeln.info.lucene.Indexer;
@@ -30,8 +31,10 @@ public class Application extends SpringBootServletInitializer {
 		}
 		// ...and reindex data
 		Indexer indexer = new Indexer();
-		indexer.index(new File("lucene/lia_rg_sents.txt"));
-		indexer.index(new File("lucene/ALLEGRA_corpus_rg_sents.txt"));
+		File liaCorpus = new ClassPathResource("lia_rg_sents.txt").getFile();
+		File allegraCorpus = new ClassPathResource("ALLEGRA_corpus_rg_sents.txt").getFile();
+		indexer.index(liaCorpus);
+		indexer.index(allegraCorpus);
 		
 		SpringApplication.run(Application.class, args);
 	}
