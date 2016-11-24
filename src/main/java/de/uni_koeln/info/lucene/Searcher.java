@@ -69,6 +69,7 @@ public class Searcher {
 		
 		// Retriev exact hits and record the ids...
 		Query queryExact = parser.parse(key);
+		
 		ScoreDoc[] scoreDocs = searcher.search(queryExact, 10).scoreDocs;
 		List<Integer> exactIds = new ArrayList<>();
 		for (ScoreDoc scoreDoc : scoreDocs) {
@@ -76,9 +77,18 @@ public class Searcher {
 		}
 
 		// Fuzzy query
-		String q = key + "~0.7";
-		logger.info("q: " + q);
-		Query queryFuzzy = parser.parse(q);
+		String[] split = key.split(" ");
+		String fuzzy = "";
+		
+		if(split.length > 0) {
+			for (int i = 0; i < split.length; i++) {
+				fuzzy += (i < split.length -1) ? split[i] + "~ AND " : split[i] + "~";
+			}
+		} else
+			fuzzy = key + "~0.7";
+			
+		logger.debug("q: " + fuzzy);
+		Query queryFuzzy = parser.parse(fuzzy);
 		scoreDocs = searcher.search(queryFuzzy, 10).scoreDocs;
 		
 		//  ...then boost exact matches
