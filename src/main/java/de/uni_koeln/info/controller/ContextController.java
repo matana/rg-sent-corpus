@@ -19,7 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.uni_koeln.info.lucene.Searcher;
@@ -27,30 +26,26 @@ import de.uni_koeln.info.lucene.json.ContextResponse;
 
 @RestController
 public class ContextController {
-	
-	@Autowired private Searcher searcher;
 
-	/**
-	 * 
-	 * @param key
-	 * @return
-	 * @throws IOException
-	 * @throws ParseException
-	 * @throws InvalidTokenOffsetsException
-	 */
+	@Autowired
+	private Searcher searcher;
+
 	@RequestMapping(value = "/api/rg/sent/corpous/{key}", method = RequestMethod.GET)
-	public @ResponseBody List<ContextResponse> findByPathVariables(@PathVariable String key) throws IOException, ParseException, InvalidTokenOffsetsException {
+	public List<ContextResponse> findByPathVariables(@PathVariable String key)
+			throws IOException, ParseException, InvalidTokenOffsetsException {
+
 		List<ContextResponse> results = searcher.searchAndHighlight(key);
 		List<ContextResponse> arrayList = new ArrayList<>(results);
 		Collections.sort(arrayList);
+
 		return arrayList;
 	}
-	
+
 	@RequestMapping(value = "/api/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String test(HttpServletRequest request) throws IOException {
-		Enumeration<String> headerNames = request.getHeaderNames();		
+		Enumeration<String> headerNames = request.getHeaderNames();
 		Map<String, String> map = new HashMap<>();
-		while(headerNames.hasMoreElements()) {
+		while (headerNames.hasMoreElements()) {
 			String nextElement = headerNames.nextElement();
 			String header = request.getHeader(nextElement);
 			map.put(nextElement, header);
@@ -58,10 +53,7 @@ public class ContextController {
 		map.put("date", new Date().toString());
 		return new JSONObject(map).toString(1);
 	}
-	
-//	@RequestMapping(value = "/json", method = RequestMethod.GET)
-//	public @ResponseBody List<PGResult> findByRequestBody(@RequestBody PGQuery query) throws IOException, ParseException, InvalidTokenOffsetsException {
-//		return searcher.findQuotation(query);
-//	}
 
 }
+
+
