@@ -79,26 +79,28 @@ public class Searcher {
 		// Fuzzy query
 		String[] split = key.split(" ");
 		String fuzzy = "";
-		
-		if(split.length > 0) {
+		logger.info("split.length > 0: " + split.length);
+		if(split.length > 1) {
 			for (int i = 0; i < split.length; i++) {
-				fuzzy += (i < split.length -1) ? split[i] + "~ AND " : split[i] + "~";
+				fuzzy += (i < split.length -1) ? split[i] + "~0.5 AND " : split[i] + "~0.5";
 			}
 		} else
-			fuzzy = key + "~0.7";
-			
-		logger.debug("q: " + fuzzy);
+			fuzzy = key + "~0.9";
+		
 		Query queryFuzzy = parser.parse(fuzzy);
+		logger.info("querString: " + fuzzy);
+		logger.info("query: " + queryFuzzy);
 		scoreDocs = searcher.search(queryFuzzy, 10).scoreDocs;
 		
 		//  ...then boost exact matches
 		for (Integer id : exactIds) {
 			for (ScoreDoc scoreDoc : scoreDocs) {
 				if(scoreDoc.doc == id)
-					scoreDoc.score += 1; 
+					scoreDoc.score += 1d; 
 			}
 		}
 		
+		// ...highlighing the matched fragments
 		QueryScorer queryScorer = new QueryScorer(queryFuzzy, "content");
 		Fragmenter fragmenter = new SimpleSpanFragmenter(queryScorer);
 		SimpleHTMLFormatter htmlFormatter = new SimpleHTMLFormatter("<span class=\"key\">", "</span>");
@@ -113,6 +115,8 @@ public class Searcher {
 			toReturn.add(new ContextResponse(document.get("id"), context, scoreDoc.score, document.get("keywords"), 
 					document.get("source"), document.get("created")));
         }
+        
+        dirReader.close();
 		return toReturn;
 	}
 	
@@ -127,6 +131,13 @@ public class Searcher {
 			numDocs--;
 		}
 		return toReturn;
+	}
+
+	public int getIndexSize() throws IOException {
+		Directory dir = new SimpleFSDirectory(new File("index").toPath());
+		DirectoryReader dirReader = DirectoryReader.open(dir);
+		dirReader.close();
+		return dirReader.numDocs();
 	}
 
 }
