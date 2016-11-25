@@ -40,6 +40,11 @@ public class ContextController {
 
 		return arrayList;
 	}
+	
+	@RequestMapping(value = "/api/rg/corpous/size", method = RequestMethod.GET)
+	public int size() throws IOException {
+		return searcher.getIndexSize();
+	}
 
 	@RequestMapping(value = "/api/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String test(HttpServletRequest request) throws IOException {
