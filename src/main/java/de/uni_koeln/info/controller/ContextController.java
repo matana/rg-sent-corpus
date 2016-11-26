@@ -31,7 +31,7 @@ public class ContextController {
 	private Searcher searcher;
 
 	@RequestMapping(value = "/api/rg/sent/corpous/{key}", method = RequestMethod.GET)
-	public List<ContextResponse> findByPathVariables(@PathVariable String key)
+	public List<ContextResponse> findKeyInContext(@PathVariable String key)
 			throws IOException, ParseException, InvalidTokenOffsetsException {
 
 		List<ContextResponse> results = searcher.searchAndHighlight(key);
@@ -42,20 +42,23 @@ public class ContextController {
 	}
 	
 	@RequestMapping(value = "/api/rg/corpous/size", method = RequestMethod.GET)
-	public int size() throws IOException {
-		return searcher.getIndexSize();
+	public String indexSize() throws IOException {
+		Map<String, Object> map = new HashMap<>();
+		map.put("size", searcher.getIndexSize() + "");
+		map.put("date", new Date());
+		return new JSONObject(map).toString(1);
 	}
 
 	@RequestMapping(value = "/api/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String test(HttpServletRequest request) throws IOException {
 		Enumeration<String> headerNames = request.getHeaderNames();
-		Map<String, String> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		while (headerNames.hasMoreElements()) {
 			String nextElement = headerNames.nextElement();
 			String header = request.getHeader(nextElement);
 			map.put(nextElement, header);
 		}
-		map.put("date", new Date().toString());
+		map.put("date", new Date());
 		return new JSONObject(map).toString(1);
 	}
 
